@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المهندس سلمان | هندسة حاسب آلي</title>
+    <!-- رابط لجلب الأيقونات الحية -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- تصميم الموقع الموزون والمدمج بداخل الصفحة -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght=300;400;600;700;900&display=swap');
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0b0f19;
+            color: #e2e8f0;
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            overflow-x: hidden;
+            text-align: right;
+        }
+
+        .tech-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(56, 189, 248, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.015) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(140px);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .orb-1 {
+            top: -10%; left: 15%; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+        }
+
+        .orb-2 {
+            bottom: -5%; right: 10%; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+        }
+
+        header {
+            text-align: center;
+            padding: 120px 20px 60px 20px;
+            animation: fadeInDrop 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px auto;
+        }
+
+        .avatar-ring {
+            position: absolute;
+            top: -6px; left: -6px; right: -6px; bottom: -6px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00f2fe, #4facfe, #0000fe);
+            animation: rotateRing 12s linear infinite;
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.3);
+        }
+
+        .avatar-img {
+            position: absolute;
+            top: 2px; left: 2px; right: 2px; bottom: 2px;
+            width: calc(100% - 4px);
+            height: calc(100% - 4px);
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #0b0f19;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -1px;
+        }
+
+        header h1 span {
+            background: linear-gradient(135deg, #38bdf8 30%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            color: #94a3b8;
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 15px;
+        }
+
+        .badge i {
+            margin-left: 6px;
+        }
+
+        .click-btn {
+            display: block;
+            max-width: 160px;
+            margin: 25px auto 0 auto;
+            background: rgba(56, 189, 248, 0.05);
+            color: #38bdf8;
+            padding: 12px 28px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            border: 2px solid #00f2fe; 
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .click-btn:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+            color: #0b0f19;
+            border-color: transparent;
+            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.5);
+        }
+
+        .animate-arrow {
+            margin-right: 6px;
+            animation: bounceArrow 1.5s infinite;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto 80px auto;
+            padding: 0 20px;
+        }
+
+        .hidden-content {
+            display: none !important;
+            opacity: 0;
+        }
+
+        .show-content {
+            display: block !important;
+            animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .flat-card {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 40px;
+            border-radius: 28px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease;
+        }
+
+        .flat-card:hover {
+            border-color: rgba(56, 189, 248, 0.35);
+            box-shadow: 0 20px 45px rgba(56, 189, 248, 0.12);
+            transform: translateY(-3px);
+        }
+
+        section h2, .flat-card h2 {
+            color: #ffffff;
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        section h2 i, .flat-card h2 i {
+            color: #38bdf8;
+            margin-left: 10px;
+        }
+
+        section p, .flat-card p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            text-align: right;
+        }
+
+        .social-container {
+            margin-top: 25px;
+            text-align: right;
+        }
+
+        .linkedin-btn {
+            display: inline-block;
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .linkedin-btn i {
+            margin-left: 6px;
+        }
+
+        .linkedin-btn:hover {
+            color: #38bdf8;
+            transform: translateY(-2px);
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: right;
+        }
+
+        .input-group label {
+            color: #cbd5e1;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .input-group input, 
+        .input-group textarea {
+            background: rgba(3, 7, 18, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #ffffff;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-align: right;
+        }
+
+        .input-group input:focus, 
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #00f2fe;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.25);
+            background: rgba(3, 7, 18, 0.8);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+            color: #0b0f19;
+            border: none;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.4);
+        }
+
+        @keyframes rotateRing {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInDrop {
+            from { opacity: 0; transform: translateY(-40px) scale(0.92); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(4px); }
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.6rem; }
+            .flat-card { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tech-grid"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <header>
+        <div class="avatar-container">
+            <div class="avatar-ring"></div>
+            <img src="image.jpg" alt="المهندس سلمان" class="avatar-img">
+        </div>
+        <h1>المهندس <span>سلمان</span></h1>
+        
+        <div class="badge"><i class="fa-solid fa-laptop-code"></i> هندسة حاسب آلي</div>
+        
+        <div class="click-btn" id="trigger-btn">
+            اضغط هنا <i class="fa-solid fa-chevron-down animate-arrow"></i>
+        </div>
+    </header>
+
+    <!-- حاوية الأقسام وتبدأ مخفية تلقائياً -->
+    <div class="container hidden-content" id="main-content">
+
+        <!-- القسم الأول: نبذة عني وبداخله رابط لينكد إن -->
+        <section class="flat-card" id="about">
+            <h2><i class="fa-solid fa-user-astronaut"></i> نبذة عني</h2>
+            <p>هلا انا سلمان الطويرقي تخصصي هندسة حاسب من جامعة الطائف هنا راح احط كل اعمالي مستقبلاً</p>
+            
+            <div class="social-container">
+                <a href="#" target="_blank" class="linkedin-btn"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+            </div>
+        </section>
+
+        <!-- القسم الثاني: صندوق الإرسال بالأسماء الرسمية الكاملة بدون اختصارات من غوغل -->
+        <section class="flat-card contact-form-section">
+            <h2><i class="fa-solid fa-paper-plane"></i> تواصل معي مباشرة</h2>
+            <form action="https://api.web3forms.com/submit" method="POST" class="contact-form" autocomplete="off">
+                
+                <!-- مفتاحك السري المجاني المربوط بجيميلك مباشرة -->
+                <input type="hidden" name="access_key" value="801ee317-eea8-4e3d-91de-83cb67d4cd6b">
+
+                <div class="input-group">
+                    <label>الاسم:</label>
+                    <input type="text" name="student_name" required placeholder="اكتب اسمك هنا" autocomplete="new-password">
+                </div>
+                <div class="input-group">
+                    <label>بريدك الإلكتروني:</label>
+                    <input type="email" name="student_email" required placeholder="name@example.com" autocomplete="new-password">
+                </div>
+                <div class="input-group">
+                    <label>نص الرسالة:</label>
+                    <textarea name="student_message" rows="4" required placeholder="اكتب رسالتك لي هنا..." autocomplete="new-password"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">إرسال الرسالة</button>
+            </form>
+        </section>
+
+    </div>
+
+    <script>
+        const btn = document.getElementById('trigger-btn');
+        const content = document.getElementById('main-content');
+
+        btn.addEventListener('click', () => {
+            content.classList.remove('hidden-content');
+            content.classList.add('show-content');
+            
+            setTimeout(() => {
+                content.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        });
+    </script>
+
+</body>
+</html>
