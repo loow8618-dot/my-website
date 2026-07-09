@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سلمان | مهندس حاسب آلي</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="tech-grid"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <header>
+        <div class="avatar-container">
+            <div class="avatar-ring"></div>
+            <img src="image.png" alt="سلمان" class="avatar-img">
+        </div>
+        <h1>هلا، أنا <span>سلمان</span> وهذا موقعي</h1>
+        <p class="badge">مهندس حاسب آلي</p>
+    </header>
+
+    <div class="container">
+
+        <section class="tilt-card" id="about">
+            <h2>نبذة عني</h2>
+            <p>معكم المهندس سلمان تخصصي هندسة حاسب من جامعة الطائف و هذا موقعي المتواضع.</p>
+        </section>
+
+        <section class="tilt-card" id="skills">
+            <h2>اللغات</h2>
+            <ul class="skills-grid">
+                <li>C++</li>
+                <li>Python</li>
+                <li>HTML & CSS</li>
+            </ul>
+        </section>
+
+        <div class="social-links">
+            <a href="#">GitHub</a>
+            <a href="#">LinkedIn</a>
+            <a href="mailto:loow8618@gmail.com">البريد الإلكتروني</a>
+        </div>
+
+    </div>
+
+    <script>
+        const cards = document.querySelectorAll('.tilt-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const xc = rect.width / 2;
+                const yc = rect.height / 2;
+                const angleX = (yc - y) / 10;
+                const angleY = (x - xc) / 10;
+                card.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg) translateZ(20px) scale(1.02)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px) scale(1)';
+            });
+        });
+    </script>
+
+</body>
+</html>
